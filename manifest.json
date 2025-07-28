@@ -1,19 +1,23 @@
 {
-    "name": "SEO Checker",
-    "version": "0.1.0",
-    "description": "SEO Checker",
-    "permissions": ["storage", "tabs" , "activeTab", "scripting"],
-    "host_permissions": ["http://*/*", "https://*/*"],
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["contentScript.js"]
-      }
-    ],
-    "action": {
-      "default_title": "SEO Checker",
-      "default_popup": "popup.html",
-      "default_icon": "assets/icon.svg"
-    },
-    "manifest_version": 3
+  "name": "SEO Checker",
+  "version": "0.1.0",
+  "description": "SEO Checker",
+  "permissions": ["storage", "tabs", "activeTab", "scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "action": {
+    "default_title": "SEO Checker",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  },
+  "manifest_version": 3
 }
