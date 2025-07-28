@@ -53,20 +53,20 @@ function getHeading(response) {
     .join("")}`;
 }
 
-export const getLink = (response, type = "link-internal") => {
+export const getLink = (response, type = "link-external") => {
   let header = `
   <div  style="display:flex; gap:10px; align-items:center">
-        <div class="links" data-target="link-internal">
-            <strong class="${getClassLengthEqualZero(
-          (response.internalLinks || []).length
-        )}">Internal Links Number:</strong> ${
-    (response.internalLinks || []).length
-  }</div>
-  <div class="links"  data-target="link-external">
-        <strong class="${getClassLengthEqualZero(
-              (response.externalLinks || []).length
-            )}">External Links Number:</strong> ${
+    <div class="links ${type == 'link-external' ? 'active' : 'noactive'}"  data-target="link-external">
+          <strong class="${getClassLengthEqualZero(
+            (response.externalLinks || []).length
+          )}">External Links Number:</strong> ${
     (response.externalLinks || []).length
+  }</div>
+    <div class="links ${type == 'link-external' ? 'noactive' : 'active'}" data-target="link-internal">
+          <strong class="${getClassLengthEqualZero(
+            (response.internalLinks || []).length
+          )}">Internal Links Number:</strong> ${
+    (response.internalLinks || []).length
   }</div>
   </div>
     `;
@@ -101,28 +101,30 @@ export const getHeding = (response) => {
 };
 
 export const getImg = (response) => {
-  const imgNoAlt = response.imgValidation.filter( img => !img.isAltValid);
-  const imgNoLazy = response.imgValidation.filter( img => !img.hasLazy)
-  const report =  `<div>
-    <p><strong>Total img:</strong> ${(response.imgValidation || []).length }</p>  
-    <div><strong>Total img no alt:</strong> ${(imgNoAlt|| []).length }</div>
-    <div><strong>Total img no lazy:</strong> ${(imgNoLazy|| []).length }</div>
-  </div>`
+  const imgNoAlt = response.imgValidation.filter((img) => !img.isAltValid);
+  const imgNoLazy = response.imgValidation.filter((img) => !img.hasLazy);
+  const report = `<div>
+    <p><strong>Total img:</strong> ${
+      (response.imgValidation || []).length
+    }</p>  
+    <div><strong>Total img no alt:</strong> ${(imgNoAlt || []).length}</div>
+    <div><strong>Total img no lazy:</strong> ${(imgNoLazy || []).length}</div>
+  </div>`;
   const noAlt = `<p><strong class="${getClassLengthMoreThenZero(
-    (imgNoAlt|| []).length
+    (imgNoAlt || []).length
   )}">Missing Alt <span style="font-size: 15px;font-weight: 300;">(${
-    (imgNoAlt|| []).length
+    (imgNoAlt || []).length
   })</span> :</strong></p>
     ${getImageNoAltLazy(imgNoAlt)}`;
 
   const noLazy = `<p><strong class="${getClassLengthMoreThenZero(
-    (imgNoLazy|| []).length
+    (imgNoLazy || []).length
   )}">Missing Lazy <span style="font-size: 15px;font-weight: 300;">(${
-    (imgNoLazy|| []).length
+    (imgNoLazy || []).length
   })</span> :</strong></p>
     ${getImageNoAltLazy(imgNoLazy)}`;
 
-return report + noAlt + noLazy;
+  return report + noAlt + noLazy;
 };
 
 export const getGeneral = (response) => {

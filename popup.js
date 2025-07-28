@@ -22,12 +22,7 @@ const setHtml = (response, type) => {
 
     document.querySelectorAll(".links").forEach((item) => {
       item.addEventListener("click", () => {
-        const type = item.getAttribute("data-target");
-        document
-          .querySelectorAll(".links")
-          .forEach((el) => el.classList.remove("active"));
-
-        item.classList.add("active");
+        const type = item.getAttribute("data-target");    
         setHtml(storedResponse, type);
       });
     });
