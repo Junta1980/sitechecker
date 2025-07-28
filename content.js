@@ -103,22 +103,26 @@ export const getHeding = (response) => {
 export const getImg = (response) => {
   const imgNoAlt = response.imgValidation.filter( img => !img.isAltValid);
   const imgNoLazy = response.imgValidation.filter( img => !img.hasLazy)
-  
+  const report =  `<div>
+    <p><strong>Total img:</strong> ${(response.imgValidation || []).length }</p>  
+    <div><strong>Total img no alt:</strong> ${(imgNoAlt|| []).length }</div>
+    <div><strong>Total img no lazy:</strong> ${(imgNoLazy|| []).length }</div>
+  </div>`
   const noAlt = `<p><strong class="${getClassLengthMoreThenZero(
     (imgNoAlt|| []).length
-  )}">Missing Alt <span style="font-size: 15px;font-weight: 300;">(N°: ${
+  )}">Missing Alt <span style="font-size: 15px;font-weight: 300;">(${
     (imgNoAlt|| []).length
   })</span> :</strong></p>
     ${getImageNoAltLazy(imgNoAlt)}`;
 
   const noLazy = `<p><strong class="${getClassLengthMoreThenZero(
     (imgNoLazy|| []).length
-  )}">Missing Lazy <span style="font-size: 15px;font-weight: 300;">(N°: ${
+  )}">Missing Lazy <span style="font-size: 15px;font-weight: 300;">(${
     (imgNoLazy|| []).length
   })</span> :</strong></p>
     ${getImageNoAltLazy(imgNoLazy)}`;
 
-return noAlt + noLazy;
+return report + noAlt + noLazy;
 };
 
 export const getGeneral = (response) => {
