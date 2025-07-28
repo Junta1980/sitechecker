@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <h1 style="display: flex; align-items: center; gap: 10px; font-size: 24px; margin-bottom: 15px;">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Cerchio blu -->
+    <circle cx="12" cy="12" r="10" fill="#2196F3" />
+    <!-- Segno di spunta verde -->
+    <path d="M9.5 12.5L11 14L14.5 10.5" stroke="#f0f8ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Sitechecker
+</h1>
+  <nav style="background: #333; color: white; display: flex; gap: 20px; padding: 10px;">
+    <span class="nav-item" data-target="General" style="cursor:pointer;">Overview</span>
+    <span class="nav-item" data-target="headings" style="cursor:pointer;">Headings</span>
+    <span class="nav-item" data-target="img-no-alt" style="cursor:pointer;">Img Alt</span>
+    <span class="nav-item" data-target="link-internal" style="cursor:pointer;">Links</span> 
+    <span class="nav-item" data-target="JSON-LD" style="cursor:pointer;">Structured data</span> 
+   
+  </nav>
+  <div id="results">
+    Caricamento in corso...
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+
+</html>

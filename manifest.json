@@ -1,0 +1,19 @@
+{
+    "name": "SEO Checker",
+    "version": "0.1.0",
+    "description": "SEO Checker",
+    "permissions": ["storage", "tabs" , "activeTab", "scripting"],
+    "host_permissions": ["http://*/*", "https://*/*"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "action": {
+      "default_title": "SEO Checker",
+      "default_popup": "popup.html",
+      "default_icon": "assets/icon.svg"
+    },
+    "manifest_version": 3
+}

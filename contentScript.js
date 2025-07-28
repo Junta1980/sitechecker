@@ -1,0 +1,121 @@
+(() => {
+  collectSEOData();
+})();
+
+function validateLDJSONBlocks() {
+  const scripts = Array.from(
+    document.querySelectorAll('script[type="application/ld+json"]')
+  );
+
+  return scripts.map((script, index) => {
+    try {
+      const json = JSON.parse(script.textContent);
+
+      const hasContext = json["@context"] !== undefined;
+      const hasType = json["@type"] !== undefined;
+      const hasgraph = json["@graph"] !== undefined;
+
+      return {
+        index,
+        valid: true,
+        error: '',
+        hasContext,
+        hasType,
+        hasgraph,
+        content: json,
+      };
+    } catch (err) {
+      return {
+        index,
+        valid: false,
+        error: err.message,
+        hasContext: false,
+        hasType: false,
+        hasgraph: false,
+        content: script.textContent.slice(0, 200),
+      };
+    }
+  });
+}
+
+function collectSEOData() {
+  chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
+    console.log("Ricevuto messaggio:", obj);
+
+    if (obj.action === "getSEOData") {
+      const title = document.title || "None";
+      const meta =
+        document.querySelector("meta[name='description']")?.content || "None";
+      const h1Elem = document.querySelector("h1");
+      const h1Exist = h1Elem ? h1Elem.innerText : "None";
+      const img = Array.from(document.querySelectorAll("img"));
+      const imgValidation = img
+        .filter((img) => !img.style?.cssText.includes("none") && img.width != 0)
+        .map((img) => {
+           const loading = img.getAttribute("loading") || "";
+          const alt = img.getAttribute("alt") || "";
+          return {
+            src: img.src,
+            width: img.width,
+            height: img.height,
+            isAltValid: alt.trim().length > 3,
+            hasLazy: loading === "lazy",
+            loading: loading,
+            alt: alt,
+            tag: img.outerHTML.slice(0, 100)
+          }
+          
+        });
+
+
+      const allLinks = Array.from(document.querySelectorAll("a[href]")).map(
+        (a) => a.href
+      );
+      const internalLinks = allLinks.filter((link) =>
+        link.includes(location.hostname)
+      );
+      const externalLinks = allLinks.filter(
+        (link) => !link.includes(location.hostname)
+      );
+
+      const bodyText = document.body.innerText.trim();
+      const wordCount = bodyText.split(/\s+/).length;
+
+      const h1Count = document.querySelectorAll("h1").length;
+      const multipleH1 = h1Count;
+
+      const headings = Array.from(document.querySelectorAll("h1, h2, h3")).map(el => ({
+        tag: el.tagName.toLowerCase(),
+        text: el.innerText.trim(),
+      }));
+
+      // Tag canonical
+      const canonical =
+        document.querySelector("link[rel='canonical']")?.href || "None";
+
+      const DJSONBlocks = validateLDJSONBlocks()
+
+      sendResponse({
+        title,
+        meta,
+        h1Exist,
+        imgValidation,
+        wordCount,
+        multipleH1,
+        internalLinks,
+        externalLinks,
+        canonical,
+        headings,
+        DJSONBlocks
+      });
+    }
+
+
+    if (obj.action === "HighligthImmage") {
+      const img = document.querySelector(`img[src="${obj.src}"]`);
+      img.style.border = '5px solid red';
+    }
+
+    return true; 
+  });
+}
