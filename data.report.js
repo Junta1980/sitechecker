@@ -6,7 +6,6 @@ export const getReport = (validationResults) =>{
       div.classList.add("block");
       div.classList.add(item.valid ? "valid" : "invalid");
 
-      // Intestazione con info base e toggle per il JSON
       const header = document.createElement("div");
       header.classList.add("header");
 

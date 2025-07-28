@@ -94,8 +94,6 @@ async function getSeo(sendResponse){
         }));
          window.scrollTo(0, 0);
      
-
-        // Tag canonical
         const canonical =
           document.querySelector("link[rel='canonical']")?.href || "None";
 
