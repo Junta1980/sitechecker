@@ -1,5 +1,5 @@
 import { getHeding, getImg, getGeneral, getLink } from "./content.js";
-import {getReport} from "./content.report.js"
+import {getReport} from "./data.report.js"
 
 let storedResponse;
 
@@ -45,11 +45,9 @@ const setHtml = (response, type) => {
 
 async function checkCeo() {
   const tab = await getCurrentTab();
-  console.log("checkCeo", tab);
   chrome.tabs.sendMessage(tab.id, { action: "getSEOData" }, (response) => {
     storedResponse = response;
     setHtml(response, "General");
-    console.log(response);
   });
 }
 
