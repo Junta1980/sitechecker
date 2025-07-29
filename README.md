@@ -22,5 +22,5 @@ To install the extension manually in Chrome:
 
 1. **Download or clone this repository**:
    ```bash
-   git clone https://github.com/yourusername/seo-inspector-extension](https://github.com/Junta1980/Sitechecker.git
+   git clone https://github.com/Junta1980/Sitechecker.git
    chrome://extensions
