@@ -126,8 +126,14 @@ function collectSEOData() {
     if (obj.action === "HighligthImmage") {
       const img = document.querySelector(`img[src="${obj.src}"]`);
       img.style.border = "5px solid red";
+      scrollToSection(img)
+      
     }
 
     return true;
   });
+
+  function scrollToSection(img) {
+    img.scrollIntoView({ behavior: 'smooth' });
+  }
 }
