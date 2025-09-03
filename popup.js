@@ -28,6 +28,7 @@ const setHtml = (response, type) => {
     });
   }
 
+
   if (type == "JSON-LD") {
     document.getElementById("results").innerHTML = '<div id="report"></div>';
     getReport(response.DJSONBlocks)
