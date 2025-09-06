@@ -3,7 +3,7 @@ import {getReport} from "./data.report.js"
 
 let storedResponse;
 
-const setHtml = (response, type) => {
+const setHtml = async (response, type) => {
   let html;
   if (type == "General") {
     document.getElementById("results").innerHTML = getGeneral(response);
@@ -18,7 +18,7 @@ const setHtml = (response, type) => {
   }
 
   if (type == "link-internal" || type == "link-external") {
-    document.getElementById("results").innerHTML = getLink(response, type);
+    document.getElementById("results").innerHTML = await getLink(response, type);
 
     document.querySelectorAll(".links").forEach((item) => {
       item.addEventListener("click", () => {

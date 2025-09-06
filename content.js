@@ -53,16 +53,36 @@ function getHeading(response) {
     .join("")}`;
 }
 
-export const getLink = (response, type = "link-external") => {
+async function checkLink(url) {
+  let linkOk = "";
+  if (url.startsWith("mailto:")) return "📧";
+  if (url.startsWith("tel:")) return "📞";
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return "⚠️";
+  }
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    response.ok ? (linkOk = "✅ ") : (linkOk = "❌ ");
+  } catch (error) {
+    linkOk = linkOk = "❌ ";
+  }
+  return linkOk;
+}
+
+export const getLink = async (response, type = "link-external") => {
   let header = `
   <div  style="display:flex; gap:10px; align-items:center">
-    <div class="links ${type == 'link-external' ? 'active' : 'noactive'}"  data-target="link-external">
+    <div class="links ${
+      type == "link-external" ? "active" : "noactive"
+    }"  data-target="link-external">
           <strong class="${getClassLengthEqualZero(
             (response.externalLinks || []).length
           )}">External Links Number:</strong> ${
     (response.externalLinks || []).length
   }</div>
-    <div class="links ${type == 'link-external' ? 'noactive' : 'active'}" data-target="link-internal">
+    <div class="links ${
+      type == "link-external" ? "noactive" : "active"
+    }" data-target="link-internal">
           <strong class="${getClassLengthEqualZero(
             (response.internalLinks || []).length
           )}">Internal Links Number:</strong> ${
@@ -73,21 +93,29 @@ export const getLink = (response, type = "link-external") => {
 
   let html;
   if (type == "link-internal") {
-    html = ` <div style="display:flex; gap:10px;flex-direction: column;">
-         ${response.internalLinks
-
-           .map((l) => ` <a href="${l}" target="_blank">${l}</a>`)
-           .join("")}
+    const checkedLinks = await Promise.all(
+      (response.internalLinks || []).map(async (l) => {
+        const status = await checkLink(l);
+        return `<div>${status} <a href="${l}" target="_blank">${l}</a></div>`;
+      })
+    );
+    console.log(checkedLinks);
+    html = `  <div style="display:flex; gap:10px; flex-direction: column;">
+           ${checkedLinks.join("")}
            <div>`;
   }
 
   if (type == "link-external") {
+    const checkedLinks = await Promise.all(
+      (response.externalLinks || []).map(async (l) => {
+        const status = await checkLink(l);
+        return `<div>${status} <a href="${l}" target="_blank">${l}</a></div>`;
+      })
+    );
+    console.log(checkedLinks);
     html = `  <div style="display:flex; gap:10px; flex-direction: column;">
-         ${response.externalLinks
-
-           .map((l) => ` <a href="${l}" target="_blank">${l}</a>`)
-           .join("")}
-           <div>`;
+           ${checkedLinks.join("")}
+           </div>`;
   }
 
   return header + html;
@@ -175,3 +203,5 @@ export const getGeneral = (response) => {
     </p>
      `;
 };
+
+
