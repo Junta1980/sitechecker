@@ -1,8 +1,8 @@
 {
   "name": "SEO Checker",
   "version": "1.0.0",
-  "description": "Quickly analyze and check essential SEO elements of any website directly from your browser. SEO Checker helps you identify issues and optimize your pages for better visibility.",
-  "permissions": ["storage", "tabs", "activeTab", "scripting"],
+  "description": "Quickly analyze and check essential SEO elements of any website directly from your browser.",
+  "permissions": ["activeTab", "scripting"],
   "host_permissions": ["http://*/*", "https://*/*"],
   "content_scripts": [
     {
