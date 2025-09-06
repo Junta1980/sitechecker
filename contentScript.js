@@ -126,7 +126,6 @@ function collectSEOData() {
     if (obj.action === "HighligthImmage") {
       const img = document.querySelector(`img[src="${obj.src}"]`);
       img.style.border = "5px solid red";
-      modal(img.getBoundingClientRect())
       scrollToSection(img)
 
     }
