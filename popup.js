@@ -3,6 +3,34 @@ import {getReport} from "./data.report.js"
 
 let storedResponse;
 
+function showLoader() {
+  const resultsDiv = document.getElementById("results");
+
+  // se il loader non esiste già, crealo
+  if (!document.getElementById("loader")) {
+    const loader = document.createElement("div");
+    loader.id = "loader";
+    loader.textContent = "⏳ Caricamento...";
+    loader.style.margin = "10px 0";
+    loader.style.fontWeight = "bold";
+    loader.style.color = "#333";
+    loader.style.fontSize = "18px";
+    loader.style.textAlign = "center";
+
+    resultsDiv.parentNode.insertBefore(loader, resultsDiv);
+  }
+
+  document.getElementById("loader").style.display = "block";
+}
+
+function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.remove();
+  }
+}
+
+
 const setHtml = async (response, type) => {
   let html;
   if (type == "General") {
@@ -18,7 +46,10 @@ const setHtml = async (response, type) => {
   }
 
   if (type == "link-internal" || type == "link-external") {
+    document.getElementById("results").innerHTML  = '';
+    showLoader();
     document.getElementById("results").innerHTML = await getLink(response, type);
+    hideLoader();
 
     document.querySelectorAll(".links").forEach((item) => {
       item.addEventListener("click", () => {
@@ -64,3 +95,6 @@ document.querySelectorAll(".nav-item").forEach((item) => {
     setHtml(storedResponse, type);
   });
 });
+
+
+

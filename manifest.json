@@ -2,7 +2,7 @@
   "name": "SEO Checker",
   "version": "1.0.0",
   "description": "Quickly analyze and check essential SEO elements of any website directly from your browser.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab"],
   "host_permissions": ["http://*/*", "https://*/*"],
   "content_scripts": [
     {
